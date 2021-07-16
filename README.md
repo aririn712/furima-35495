@@ -29,7 +29,7 @@
 | status_id     | integer    | null: false       |
 | bearer_id     | integer    | null: false       |
 | area_id       | integer    | null: false       |
-| number_day_id | integer    | null: false       |
+| number_id     | integer    | null: false       |
 | price         | integer    | null: false       |
 | user          | references | foreign_key: true |
 
