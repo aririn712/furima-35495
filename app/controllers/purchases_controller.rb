@@ -20,8 +20,11 @@ class PurchasesController < ApplicationController
   end
 
   private
+
   def purchase_address_params
-    params.require(:purchase_address).permit(:post_code, :area_id, :municipality, :address, :building, :phone_number).merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token])
+    params.require(:purchase_address).permit(:post_code, :area_id, :municipality, :address, :building, :phone_number).merge(
+      user_id: current_user.id, item_id: params[:item_id], token: params[:token]
+    )
   end
 
   def find_params
@@ -37,10 +40,10 @@ class PurchasesController < ApplicationController
   end
 
   def pay_item
-    Payjp.api_key = "sk_test_4e400b2f765d9eed726e2a2b"  # 自身のPAY.JPテスト秘密鍵
+    Payjp.api_key = 'sk_test_4e400b2f765d9eed726e2a2b'  # 自身のPAY.JPテスト秘密鍵
     Payjp::Charge.create(
-      amount: @item.price,  # 商品の値段
-      card: purchase_address_params[:token],    # カードトークン
+      amount: @item.price, # 商品の値段
+      card: purchase_address_params[:token], # カードトークン
       currency: 'jpy'                 # 通貨の種類（日本円）
     )
   end
