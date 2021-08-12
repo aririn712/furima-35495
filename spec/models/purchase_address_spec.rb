@@ -26,6 +26,16 @@ RSpec.describe PurchaseAddress, type: :model do
         @purchase_address.valid?
         expect(@purchase_address.errors.full_messages).to include("Token can't be blank")
       end
+      it 'user_idが空だと購入できないこと' do
+        @purchase_address.user_id = ''
+        @purchase_address.valid?
+        expect(@purchase_address.errors.full_messages).to include("User can't be blank")
+      end
+      it 'item_idが空だと購入できないこと' do
+        @purchase_address.item_id = ''
+        @purchase_address.valid?
+        expect(@purchase_address.errors.full_messages).to include("Item can't be blank")
+      end
       it 'post_codeが空だと購入できないこと' do
         @purchase_address.post_code = ''
         @purchase_address.valid?
@@ -60,6 +70,11 @@ RSpec.describe PurchaseAddress, type: :model do
         @purchase_address.phone_number = 111_111_111_111
         @purchase_address.valid?
         expect(@purchase_address.errors.full_messages).to include('Phone number is too long (maximum is 11 characters)')
+      end
+      it 'phone_numberが英数混合では購入できないこと' do
+        @purchase_address.phone_number = '1a1a1a1a1a'
+        @purchase_address.valid?
+        expect(@purchase_address.errors.full_messages).to include("Phone number is not a number")
       end
     end
   end

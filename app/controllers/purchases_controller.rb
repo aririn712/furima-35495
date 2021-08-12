@@ -2,7 +2,7 @@ class PurchasesController < ApplicationController
   before_action :authenticate_user!, only: [:index, :create]
   before_action :find_params
   before_action :not_seller, only: [:index, :create]
-  before_action :sold_out_item, only: [:index]
+  before_action :sold_out_item, only: [:index, :create]
 
   def index
     @purchase_address = PurchaseAddress.new
@@ -40,6 +40,7 @@ class PurchasesController < ApplicationController
   end
 
   def pay_item
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
     Payjp.api_key = 'sk_test_4e400b2f765d9eed726e2a2b'  # 自身のPAY.JPテスト秘密鍵
     Payjp::Charge.create(
       amount: @item.price, # 商品の値段
